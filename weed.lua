@@ -2,8 +2,8 @@ fe-- main `S` code in init.lua
 local S
 S = farming.S
 
-initial_timeout = 18
-repeat_timeout	= 6
+initial_timeout = 15
+repeat_timeout	= 4
 
 minetest.register_node(":farming:weed", {
 	description = S("Weed"),
