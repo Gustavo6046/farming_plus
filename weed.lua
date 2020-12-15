@@ -37,7 +37,6 @@ minetest.register_abm({
 		local tilled_soil = minetest.get_node(pos)
 
 		pos.y = pos.y+1
-
 		local air_above = minetest.get_node(pos)
 		
 		if timeout == 0 then
@@ -59,6 +58,8 @@ minetest.register_abm({
 		end
 		
 		meta:set_int("timeout", timeout)
+		meta:mark_as_private("timeout")
+		
 		meta:set_string("infotext", "Grassiness: "..(initial_timeout - timeout - 1) * 100 / (initial_timeout - 1).."%")
 	end
 })
