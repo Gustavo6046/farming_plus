@@ -1,4 +1,4 @@
--- main `S` code in init.lua
+çç-- main `S` code in init.lua
 local S
 S = farming.S
 
@@ -74,8 +74,13 @@ minetest.register_craftitem("farming_plus:pesticide", {
 
 		meta:set_int("farming_plus:weed:timeout", timeout)
 
+		-- update grassiness textinfo to reflect the pesticide effect
+		local status = "Grassiness: "..(1 + initial_timeout - timeout) * 100 / initial_timeout.."%"
+		meta:set_string("infotext", status)
+
 		-- take 1 item from stack and return
 		itemstack:take_item()
+		
 		return itemstack
     end,
 })
