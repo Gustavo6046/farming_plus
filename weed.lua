@@ -25,7 +25,7 @@ minetest.register_node(":farming:weed", {
 
 minetest.register_abm({
 	nodenames = {"farming:soil_wet", "farming:soil"},
-	interval = 4,
+	interval = 5.0,
 	chance = 10,
 	action = function(pos, node)
 		if minetest.find_node_near(pos, 4, {"farming:scarecrow", "farming:scarecrow_light"}) ~= nil then
@@ -33,7 +33,7 @@ minetest.register_abm({
 		end
 		
 		local meta = minetest.get_meta(pos)
-		local timeout = meta:get_int("timeout")
+		local timeout = meta:get_int("farming_plus:weed:timeout")
 		local tilled_soil = minetest.get_node(pos)
 
 		pos.y = pos.y+1
@@ -57,10 +57,14 @@ minetest.register_abm({
 			end
 		end
 		
-		meta:set_int("timeout", timeout)
-		meta:mark_as_private("timeout")
+		meta:set_int("farming_plus:weed:timeout", timeout)
+		meta:mark_as_private("farming_plus:weed:timeout")
+
+		local status = "Grassiness: "..(initial_timeout - timeout - 1) * 100 / (initial_timeout - 1).."%"
 		
-		meta:set_string("infotext", "Grassiness: "..(initial_timeout - timeout - 1) * 100 / (initial_timeout - 1).."%")
+		meta:set_string("infotext", status)
+
+		print(status)
 	end
 })
 
