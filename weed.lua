@@ -1,4 +1,4 @@
-fe-- main `S` code in init.lua
+-- main `S` code in init.lua
 local S
 S = farming.S
 
