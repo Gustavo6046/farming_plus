@@ -32,16 +32,16 @@ minetest.register_abm({
 			return
 		end
 		
-		meta = minetest.get_meta(pos)
-		timeout = meta.get_int("timeout")
+		local meta = minetest.get_meta(pos)
+		local timeout = meta.get_int("timeout")
+		local tilled_soil = minetest.get_node(pos)
 		
 		if timeout == 0 then
-			meta.set_int('timeout', initial_timeout + 1)
+			timeout = initial_timeout + 1
 			return
 			
 		elseif timeout > 1 then
-			meta.set_int('timeout', timeout - 1)
-			return
+			timeout = timeout - 1
 			
 		else
 			pos.y = pos.y+1
@@ -52,9 +52,11 @@ minetest.register_abm({
 			end
 
 			if timeout < repeat_timeout + 1 then
-				meta.set_int('timeout', repeat_timeout + 1)
+				timeout = repeat_timeout + 1
 			end
 		end
+		
+		meta.set_int('timeout', timeout)
 	end
 })
 
