@@ -24,6 +24,8 @@ minetest.register_node("farming_plus:weed", {
 	sounds = default.node_sound_leaves_defaults()
 })
 
+minetest.register_alias("farming:weed", "farming_plus:weed")
+
 minetest.register_craftitem("farming_plus:pesticide", {
 	description = "Weed Repellent",
 	inventory_image = "farming_pesticide.png",
