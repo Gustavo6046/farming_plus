@@ -1,4 +1,4 @@
--- main `S` code in init.lua
+fe-- main `S` code in init.lua
 local S
 S = farming.S
 
@@ -39,7 +39,7 @@ minetest.register_abm({
 			meta.set_int('timeout', initial_timeout + 1)
 			return
 			
-		else if timeout > 1 then
+		elseif timeout > 1 then
 			meta.set_int('timeout', timeout - 1)
 			return
 			
