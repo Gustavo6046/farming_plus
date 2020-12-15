@@ -35,6 +35,10 @@ minetest.register_abm({
 		local meta = minetest.get_meta(pos)
 		local timeout = meta.get_int("timeout")
 		local tilled_soil = minetest.get_node(pos)
+
+		pos.y = pos.y+1
+
+		local air_above = minetest.get_node(pos)
 		
 		if timeout == 0 then
 			timeout = initial_timeout + 1
@@ -44,9 +48,7 @@ minetest.register_abm({
 			timeout = timeout - 1
 			
 		else
-			pos.y = pos.y+1
-			
-			if minetest.get_node(pos).name == "air" then
+			if air_above.name == "air" then
 				node.name = "farming:weed"
 				minetest.set_node(pos, node)
 			end
