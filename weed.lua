@@ -41,7 +41,6 @@ minetest.register_abm({
 		
 		if timeout == 0 then
 			timeout = initial_timeout + 1
-			return
 			
 		elseif timeout > 1 then
 			timeout = timeout - 1
