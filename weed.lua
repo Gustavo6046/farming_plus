@@ -4,8 +4,9 @@ S = farming.S
 
 initial_timeout = 12
 repeat_timeout	= 4
+pesticide_timeout_extra = 30
 
-minetest.register_node(":farming:weed", {
+minetest.register_node("farming:weed", {
 	description = S("Weed"),
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -21,6 +22,71 @@ minetest.register_node(":farming:weed", {
 	},
 	groups = {snappy=3, flammable=2,plant=1},
 	sounds = default.node_sound_leaves_defaults()
+})
+
+minetest.register_craftitem("farming:pesticide", {
+	description: "Weed Repellent",
+	inventory_image = "farming_pesticide.png",
+	on_use = function(itemstack, user, pointed)
+        if pointed == nil or pointed.type ~= "node" then
+        	return nil
+        end
+
+		-- make sure we're looking at tilled soil, or weed above tilled soil
+        local pos = pointed.under
+		local node = minetest.get_node(pos)
+
+		if node.name == "farming:weed" then
+			pos.y = pos.y - 1
+			node = minetest.get_node(pos)
+		end
+
+		if node.name ~= "farming:soil_wet" and node.name ~= "farming:soil" then
+			return nil
+		end
+
+		-- get weed and try to break it
+		-- (abort if we can't, even if the rest works;
+		-- because a pesticide that makes ground less weedy
+		-- and still can't kill existing weed doesn't make sense)
+		pos.y = pos.y + 1
+		local weedcheck = minetest.get_node(pos)
+
+		if weedcheck.name == "farming:weed" then
+			if not minetest.dig_node(pos) then
+				return nil
+			end
+		end
+
+		-- set the timeout of tiled soil to the max (initial_timeout + 1) if
+		-- smaller, and add pesticide_timeout_extra
+
+		pos.y = pos.y - 1
+		
+		local meta = minetest.get_meta(pos)
+		local timeout = meta:get_int("farming_plus:weed:timeout")
+
+		if timeout < initial_timeout + 1 then
+			timeout = initial_timeout + 1
+		end
+
+		timeout = timeout + pesticide_timeout_extra
+
+		meta:set_int("farming_plus:weed:timeout", timeout)
+
+		-- take 1 item from stack and return
+		itemstack.take_item()
+		return itemstack
+    end,
+})
+
+minetest.register_craft(recipe = {
+	"output": "farming:pesticide 24",
+	"recipe": {
+		{"", 				"basic_materials:plastic_sheet",    ""},
+		{"default:paper", 	"flowers:mushroom_red",				"default:paper"},
+		{"default:paper", 	"flowers:mushroom_red",				"default:paper"}
+	},
 })
 
 minetest.register_abm({
