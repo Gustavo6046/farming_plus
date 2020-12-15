@@ -64,7 +64,7 @@ minetest.register_abm({
 		meta:set_string("infotext", status)
 
 		pos.y = pos.y - 1
-		minetest.log("info", pos..status)
+		-- minetest.log("info", "("..pos.x..pos.y..pos.z..") "..status)
 	end
 })
 
