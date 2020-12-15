@@ -36,7 +36,7 @@ minetest.register_abm({
 		local timeout = meta:get_int("farming_plus:weed:timeout")
 		local tilled_soil = minetest.get_node(pos)
 
-		pos.y = pos.y+1
+		pos.y = pos.y + 1
 		local air_above = minetest.get_node(pos)
 		
 		if timeout == 0 then
@@ -64,7 +64,8 @@ minetest.register_abm({
 		
 		meta:set_string("infotext", status)
 
-		print(status)
+		pos.y = pos.y - 1
+		minetest.log("info", pos..status)
 	end
 })
 
