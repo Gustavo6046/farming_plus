@@ -59,7 +59,7 @@ minetest.register_abm({
 		end
 		
 		meta:set_int("timeout", timeout)
-		meta:set_string("infotext", "Grassiness: "..(initial_timeout - timeout - 1) * 100 / (initial_timeout - 1))
+		meta:set_string("infotext", "Grassiness: "..(initial_timeout - timeout - 1) * 100 / (initial_timeout - 1).."%")
 	end
 })
 
