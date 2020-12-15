@@ -6,7 +6,7 @@ initial_timeout = 12
 repeat_timeout	= 4
 pesticide_timeout_extra = 30
 
-minetest.register_node("farming:weed", {
+minetest.register_node("farming_plus:weed", {
 	description = S("Weed"),
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -24,8 +24,8 @@ minetest.register_node("farming:weed", {
 	sounds = default.node_sound_leaves_defaults()
 })
 
-minetest.register_craftitem("farming:pesticide", {
-	description: "Weed Repellent",
+minetest.register_craftitem("farming_plus:pesticide", {
+	description = "Weed Repellent",
 	inventory_image = "farming_pesticide.png",
 	on_use = function(itemstack, user, pointed)
         if pointed == nil or pointed.type ~= "node" then
@@ -36,7 +36,7 @@ minetest.register_craftitem("farming:pesticide", {
         local pos = pointed.under
 		local node = minetest.get_node(pos)
 
-		if node.name == "farming:weed" then
+		if node.name == "farming_plus:weed" then
 			pos.y = pos.y - 1
 			node = minetest.get_node(pos)
 		end
@@ -52,7 +52,7 @@ minetest.register_craftitem("farming:pesticide", {
 		pos.y = pos.y + 1
 		local weedcheck = minetest.get_node(pos)
 
-		if weedcheck.name == "farming:weed" then
+		if weedcheck.name == "farming_plus:weed" then
 			if not minetest.dig_node(pos) then
 				return nil
 			end
@@ -75,14 +75,15 @@ minetest.register_craftitem("farming:pesticide", {
 		meta:set_int("farming_plus:weed:timeout", timeout)
 
 		-- take 1 item from stack and return
-		itemstack.take_item()
+		itemstack:take_item()
 		return itemstack
     end,
 })
 
-minetest.register_craft(recipe = {
-	"output": "farming:pesticide 24",
-	"recipe": {
+minetest.register_craft({
+	type = "shaped",
+	output = "farming:pesticide 24",
+	recipe = {
 		{"", 				"basic_materials:plastic_sheet",    ""},
 		{"default:paper", 	"flowers:mushroom_red",				"default:paper"},
 		{"default:paper", 	"flowers:mushroom_red",				"default:paper"}
@@ -113,7 +114,7 @@ minetest.register_abm({
 			
 		else
 			if air_above.name == "air" then
-				node.name = "farming:weed"
+				node.name = "farming_plus:weed"
 				minetest.set_node(pos, node)
 			end
 
@@ -127,7 +128,7 @@ minetest.register_abm({
 
 		local status
 
-		if node.name == "farming:weed" then
+		if node.name == "farming_plus:weed" then
 			status = "Grassiness: 100%"
 
 		else
@@ -145,6 +146,6 @@ minetest.register_abm({
 -- ========= FUEL =========
 minetest.register_craft({
 	type = "fuel",
-	recipe = "farming:weed",
-	burntime = 1
+	recipe = "farming_plus:weed",
+	burntime = 2
 })
