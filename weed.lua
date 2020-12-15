@@ -61,11 +61,13 @@ minetest.register_abm({
 
 		local status
 
-		if node.name = "farming:weed" then
+		if node.name == "farming:weed" then
 			status = "Grassiness: "..(1 + initial_timeout - timeout) * 100 / initial_timeout.."%"
 
 		else
 			status = "Grassiness: 100%"
+
+		end
 		
 		meta:set_string("infotext", status)
 
