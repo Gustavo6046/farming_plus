@@ -2,6 +2,9 @@
 local S
 S = farming.S
 
+initial_timeout = 180
+repeat_timeout	= 60
+
 minetest.register_node(":farming:weed", {
 	description = S("Weed"),
 	paramtype = "light",
@@ -28,10 +31,30 @@ minetest.register_abm({
 		if minetest.find_node_near(pos, 4, {"farming:scarecrow", "farming:scarecrow_light"}) ~= nil then
 			return
 		end
-		pos.y = pos.y+1
-		if minetest.get_node(pos).name == "air" then
-			node.name = "farming:weed"
-			minetest.set_node(pos, node)
+		
+		meta = minetest.get_meta(pos)
+		timeout = meta.get_int("timeout")
+		
+		if timeout == 0 then
+			meta.set_int('timeout', initial_timeout + 1)
+			return
+			
+		else if timeout > 1 then
+			meta.set_int('timeout', timeout - 1)
+			return
+			
+		else
+			pos.y = pos.y+1
+			
+			if minetest.get_node(pos).name == "air" then
+				node.name = "farming:weed"
+				minetest.set_node(pos, node)
+				meta.set_int("timeout", repeat_timeout + 1)
+
+			else
+				meta.set_int('timeout', repeat_timeout + 1)
+				
+			end
 		end
 	end
 })
