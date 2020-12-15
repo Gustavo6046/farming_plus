@@ -51,7 +51,7 @@ minetest.register_abm({
 				minetest.set_node(pos, node)
 				meta.set_int("timeout", repeat_timeout + 1)
 
-			else
+			else if timeout < repeat_timeout + 1 then
 				meta.set_int('timeout', repeat_timeout + 1)
 				
 			end
