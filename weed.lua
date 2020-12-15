@@ -59,7 +59,13 @@ minetest.register_abm({
 		meta:set_int("farming_plus:weed:timeout", timeout)
 		meta:mark_as_private("farming_plus:weed:timeout")
 
-		local status = "Grassiness: "..(1 + initial_timeout - timeout) * 100 / initial_timeout.."%"
+		local status
+
+		if node.name = "farming:weed" then
+			status = "Grassiness: "..(1 + initial_timeout - timeout) * 100 / initial_timeout.."%"
+
+		else
+			status = "Grassiness: 100%"
 		
 		meta:set_string("infotext", status)
 
