@@ -2,7 +2,7 @@ fe-- main `S` code in init.lua
 local S
 S = farming.S
 
-initial_timeout = 15
+initial_timeout = 12
 repeat_timeout	= 4
 
 minetest.register_node(":farming:weed", {
@@ -25,7 +25,7 @@ minetest.register_node(":farming:weed", {
 
 minetest.register_abm({
 	nodenames = {"farming:soil_wet", "farming:soil"},
-	interval = 5,
+	interval = 4,
 	chance = 10,
 	action = function(pos, node)
 		if minetest.find_node_near(pos, 4, {"farming:scarecrow", "farming:scarecrow_light"}) ~= nil then
@@ -58,7 +58,8 @@ minetest.register_abm({
 			end
 		end
 		
-		meta.set_int('timeout', timeout)
+		meta:set_int('timeout', timeout)
+		meta:set_string('infotext', 'Grassiness: '..(initial_timeout - timeout - 1) * 100 / (initial_timeout - 1))
 	end
 })
 
