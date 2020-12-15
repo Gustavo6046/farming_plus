@@ -59,7 +59,7 @@ minetest.register_abm({
 		meta:set_int("farming_plus:weed:timeout", timeout)
 		meta:mark_as_private("farming_plus:weed:timeout")
 
-		local status = "Grassiness: "..(initial_timeout - timeout - 1) * 100 / (initial_timeout - 1).."%"
+		local status = "Grassiness: "..(1 + initial_timeout - timeout) * 100 / initial_timeout.."%"
 		
 		meta:set_string("infotext", status)
 
