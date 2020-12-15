@@ -33,7 +33,7 @@ minetest.register_abm({
 		end
 		
 		local meta = minetest.get_meta(pos)
-		local timeout = meta.get_int("timeout")
+		local timeout = meta:get_int("timeout")
 		local tilled_soil = minetest.get_node(pos)
 
 		pos.y = pos.y+1
